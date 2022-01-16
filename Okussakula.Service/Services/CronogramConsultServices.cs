@@ -117,5 +117,26 @@ namespace Okussakula.Service.Services
                 return resposta.Bad("Erro ao gerar lista " + e);
             }
         }
+
+        public Response ListBySpecialityAndData(long instituitionId, long specialityId, DateTime date)
+        {
+            var resposta = new Response();
+
+            try
+            {
+                var lista = _context.CronogramConsults
+                    .Include(x => x.InstituitionSpeciality)
+                    .Include(x => x.ConsultHorarios)
+                    .AsNoTracking()
+                    .Where(x => x.InstituitionSpeciality.InstituitionId == instituitionId && x.InstituitionSpeciality.SpecialityId == specialityId && x.Data.Date == date.Date)
+                    .OrderBy(x => x.Data);
+
+                return resposta.Good("Lista de Cronogramas", lista);
+            }
+            catch (Exception e)
+            {
+                return resposta.Bad("Erro ao gerar lista " + e);
+            }
+        }
     }
 }

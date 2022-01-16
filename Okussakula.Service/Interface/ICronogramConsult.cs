@@ -13,6 +13,7 @@ namespace Okussakula.Service.Interface
 
         Response List(long instituitionId);
         Response ListBySpeciality(long instituitionId, long specialityId);
+        Response ListBySpecialityAndData(long instituitionId, long specialityId, DateTime date);
         //Response GetByID(Guid id);
         //Response Update(FuncionarioDTOApiUpdate dto);
         //Response Delete(Guid id);

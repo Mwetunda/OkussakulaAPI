@@ -122,5 +122,38 @@ namespace OkussakulaAPI.Controllers
                 return BadRequest(retorno);
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ListBySpecialityAndData")]
+        public ActionResult ListBySpecialityAndData(long instituitionId, long specialityId, DateTime data)
+        {
+
+            try
+            {
+
+                var entity = _repository.ListBySpecialityAndData(instituitionId, specialityId, data);
+
+                if (entity.Exito)
+                {
+                    entity.Objeto = _mapper.Map<List<ConsultCronogramDTO>>(entity.Objeto);
+
+                    return Ok(entity);
+                }
+                else
+                {
+                    return BadRequest(entity);
+                }
+            }
+            catch (Exception e)
+            {
+                var retorno = new Response();
+
+                retorno.Exito = false;
+                retorno.Mensagem = "Erro ao listar especialidades " + e;
+
+                return BadRequest(retorno);
+            }
+        }
     }
 }
